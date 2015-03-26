@@ -69,7 +69,7 @@
 
 ; Guess indent style for C/C++
 (add-hook 'c-mode-hook 'c-guess)
-(add-hook 'c-mode-hook 'c-guess)
+(add-hook 'c++-mode-hook 'c-guess)
 
 ; Show line numbers on left side
 (global-linum-mode 1)
