@@ -26,6 +26,7 @@
 (depends-on "web-mode")
 (depends-on "yasnippet")
 
+(depends-on "ace-jump-mode")
 (depends-on "evil")
 (depends-on "company")
 (depends-on "clang-format")
@@ -35,4 +36,3 @@
 (depends-on "buffer-move")
 (depends-on "git-gutter-fringe+")
 (depends-on "zenburn-theme")
-(depends-on "magit")

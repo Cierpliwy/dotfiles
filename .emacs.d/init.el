@@ -79,7 +79,15 @@
 
 ; Enable git gutter
 (require 'git-gutter-fringe+)
-(setq git-gutter-fr+-side 'right-fringe)
+(global-git-gutter+-mode t)
+
+; Enable smex
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+
+; Ace jump mode
+(define-key evil-motion-state-map (kbd "SPC") #'evil-ace-jump-char-mode)
+(define-key evil-motion-state-map (kbd "C-SPC") #'evil-ace-jump-word-mode)
 
 ; Font settings
 (set-face-attribute 'default nil :height 100)
