@@ -36,3 +36,7 @@
 (depends-on "buffer-move")
 (depends-on "git-gutter-fringe+")
 (depends-on "zenburn-theme")
+
+(depends-on "go-mode")
+(depends-on "company-go")
+(depends-on "go-snippets")

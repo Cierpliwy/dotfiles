@@ -11,6 +11,7 @@
 
 ; Disable buckups
 (setq make-backup-files nil)
+(setq auto-save-default nil)
 
 ; Enable ido mode
 (ido-mode t)
@@ -23,28 +24,37 @@
 ; Enable vim emulation
 (evil-mode 1)
 
+; Turn off wrap
+(toggle-truncate-lines)
+
 ; Enable flycheck for every buffer
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ; Enable company mode for every buffer
 (add-hook 'after-init-hook 'global-company-mode)
 
-(defun complete-or-indent ()
+(defun indent-or-complete ()
   "Complete or indent after tab is pressed."
-  (interactive)
-  (if (company-manual-begin)
-      (company-complete-common)
-  (indent-according-to-mode)))
-(global-set-key (kbd "TAB") 'complete-or-indent)
+    (interactive)
+    (if (looking-at "\\_>")
+        (company-complete-common)
+      (indent-according-to-mode)))
+(global-set-key (kbd "TAB") 'indent-or-complete)
 
-; Enable ycm for C/C++
-(ycmd-setup)
-(ycmd-toggle-force-semantic-completion)
-(add-hook 'c++-mode-hook 'ycmd-mode)
-(set-variable 'ycmd-server-command '("python" "/home/cierpliwy/Git/ycmd/ycmd"))
-(set-variable 'ycmd-extra-conf-whitelist '("~/Git/*"))
-(company-ycmd-setup)
-(flycheck-ycmd-setup)
+; ====== Programming related ======
+(yas-global-mode 1)
+
+; ============ C/C++ ==============
+(require 'ycmd)
+(defun setup-ycmd ()
+  "Setup ycmd."
+  (ycmd-mode)
+  (set-variable 'ycmd-server-command '("python" "/home/cierpliwy/Git/ycmd/ycmd"))
+  (set-variable 'ycmd-extra-conf-whitelist '("~/Git/*"))
+  (ycmd-toggle-force-semantic-completion)
+  (company-ycmd-setup)
+  (flycheck-ycmd-setup))
+(add-hook 'c++-mode-hook 'setup-ycmd)
 
 ; Move between buffers using shift arrows
 (global-set-key (kbd "S-<up>")       'windmove-up)
@@ -70,6 +80,15 @@
 ; Guess indent style for C/C++
 (add-hook 'c-mode-hook 'c-guess)
 (add-hook 'c++-mode-hook 'c-guess)
+
+; ============ GO ==============
+(require 'go-mode)
+(add-hook 'go-mode-hook (lambda ()
+  (set (make-local-variable 'company-backends) '(company-go))
+  (company-mode)))
+(add-hook 'go-mode-hook
+	  (lambda ()
+	  (add-hook 'before-save-hook 'gofmt-before-save nil 'local)))
 
 ; Show line numbers on left side
 (global-linum-mode 1)
