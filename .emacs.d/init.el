@@ -48,13 +48,13 @@
 (require 'ycmd)
 (defun setup-ycmd ()
   "Setup ycmd."
+  (set-variable 'ycmd-server-command '("python" "/home/cierpliwy/git/ycmd/ycmd"))
+  (set-variable 'ycmd-extra-conf-whitelist '("~/git/*"))
   (ycmd-mode)
-  (set-variable 'ycmd-server-command '("python" "/home/cierpliwy/Git/ycmd/ycmd"))
-  (set-variable 'ycmd-extra-conf-whitelist '("~/Git/*"))
   (ycmd-toggle-force-semantic-completion)
   (company-ycmd-setup)
   (flycheck-ycmd-setup))
-(add-hook 'c++-mode-hook 'setup-ycmd)
+(add-hook 'c-mode-common-hook 'setup-ycmd)
 
 ; Move between buffers using shift arrows
 (global-set-key (kbd "S-<up>")       'windmove-up)
@@ -70,16 +70,12 @@
 ; file is saved in C/C++ mode
 (global-set-key (kbd "C-c f") 'clang-format-buffer)
 
-(add-hook 'c++-mode-hook
-	  (lambda ()
-	  (add-hook 'before-save-hook 'clang-format-buffer nil 'local)))
-(add-hook 'c-mode-hook
+(add-hook 'c-mode-common-hook
 	  (lambda ()
 	  (add-hook 'before-save-hook 'clang-format-buffer nil 'local)))
 
 ; Guess indent style for C/C++
-(add-hook 'c-mode-hook 'c-guess)
-(add-hook 'c++-mode-hook 'c-guess)
+(add-hook 'c-mode-common-hook 'c-guess)
 
 ; ============ GO ==============
 (require 'go-mode)
